@@ -1,12 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Header from './Header'
+import validation from '../utils/validation'
+
 
 function Login() {
 
     const [isSignIn,setIsSignIn] = useState(true);
+    const [errorMessage , setErrorMessage] = useState(null);
+
     const handleSignIn = ()=>{
         setIsSignIn(!isSignIn)
     }
+    // const name = useRef(null)
+    const email = useRef(null);
+    const password = useRef(null);
+
+
+    const handleSubmit = ()=>{
+        
+        const message = validation(email.current.value, password.current.value)
+        setErrorMessage(message)
+    }
+    
+
   return (
     <div className='bg-black'>
             <Header/>
@@ -18,17 +34,21 @@ function Login() {
         
         <div className='absolute bg-black p-6 w-3/12 mx-auto right-0 left-0 my-32 rounded-md bg-opacity-80'>
         <h2 className='text-white text-3xl font-semibold'>{isSignIn?"Sign In":"Sign Up"}</h2>
-        <form className='p-6'>
+        <form onSubmit={(e)=>e.preventDefault()} className='p-6'>
 
            {!isSignIn && 
-           (<input className='w-full my-3 p-3 rounded-lg bg-[#333] text-white font-semibold'
+           (<input  className='w-full my-3 p-3 rounded-lg bg-[#333] text-white font-semibold'
                    type="text"  placeholder="Your Name"/>)}
-            <input className='w-full my-3 p-3 rounded-lg bg-[#333] text-white font-semibold'
+           
+            <input ref={email} className='w-full my-3 p-3 rounded-lg bg-[#333] text-white font-semibold'
                    type="text"  placeholder="Email Address"/>
-            <input className='w-full block my-3 p-3 rounded-lg bg-[#333] text-white font-semibold' 
+            
+            <input ref={password} className='w-full block my-3 p-3 rounded-lg bg-[#333] text-white font-semibold' 
                    type="password" placeholder='Password' />
 
-            <button className='cursor-pointer w-full block text-white my-8
+                <p className='text-yellow-500' >{errorMessage}</p>
+
+            <button onClick={handleSubmit} className='cursor-pointer w-full block text-white my-8
              p-3 rounded-lg bg-red-700'>{isSignIn?"Sign In":"Sign Up"}</button>
 
             {isSignIn === true?<p onClick={handleSignIn} className='cursor-pointer text-white'><span 
