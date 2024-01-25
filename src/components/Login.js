@@ -7,14 +7,16 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
+import { AVTAR_URL, BG_URL } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
+
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate()
+
   const dispatch = useDispatch();
 
   const handleSignIn = () => {
@@ -42,17 +44,17 @@ function Login() {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL: "https://avatars.githubusercontent.com/u/139466844?v=4"
+            photoURL: AVTAR_URL
           }).then(() => {
+            const {uid, email, displayName, photoURL} = auth.currentUser;
+            dispatch(addUser({
+              uid: uid,
+              email: email,
+              displayName: displayName,
+              photoURL: photoURL
+            }))
 
-
-            const { displayName, uid, email, photoURL } = auth.currentUser;
-        dispatch(addUser({ 
-          email: email, uid: uid, 
-          displayName: displayName, photoURL: photoURL }));
-
-            navigate("/browse");
-            // Profile updated!
+            // Profile updated! 
             
           }).catch((error) => {
             // An error occurred
@@ -74,7 +76,6 @@ function Login() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          navigate("/browse");
         
         })
         .catch((error) => {
@@ -91,7 +92,7 @@ function Login() {
       <div className="absolute">
         <img
           className=""
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/16006346-87f9-4226-bc25-a1fb346a2b0c/9662d0fd-0547-4665-b887-771617268815/IN-en-20240115-popsignuptwoweeks-perspective_alpha_website_large.jpg"
+          src={BG_URL}
           alt="background"
         />
       </div>
