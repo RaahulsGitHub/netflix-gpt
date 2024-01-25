@@ -1,5 +1,7 @@
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 import Header from "./Header"
+import SecondaryContainer from "./SecondaryContainer";
+import MainContainer from "./MainContainer";
 
 function Browse() {
  
@@ -10,6 +12,8 @@ useNowPlayingMovies()
         
       <div className="w-full">
         <Header />
+        <MainContainer/>
+        <SecondaryContainer/>
       </div>
 
     </div>
