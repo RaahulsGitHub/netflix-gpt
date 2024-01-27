@@ -45,7 +45,7 @@ function Header() {
 
   return (
       
-        <div className='px-8 py-2 bg-gradient-to-b from-black z-10 absolute w-full flex'>
+        <div className='px-8 py-2 bg-gradient-to-b from-black z-20 absolute w-full flex'>
             <img className='w-[200px] p-2' src={LOGO_URL} alt="logo" />
         
             {user && <div className=" h-12 m-4 my-6 absolute flex right-1 z-20">
