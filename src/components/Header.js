@@ -5,8 +5,11 @@ import { addUser, removeUser } from "../utils/userSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { LOGO_URL } from '../utils/constants';
+import { LOGO_URL, SUPPORTED_LANG } from '../utils/constants';
 import { signOut } from 'firebase/auth';
+import { toggleGptSearchView } from '../utils/gptSlice';
+import { changeLang } from '../utils/configSlice';
+
 
 
 function Header() {
@@ -27,9 +30,9 @@ function Header() {
     });
     return () => unsubscribe(); 
   }, []);
-
-
-
+  
+  
+  
   const user = useSelector(store => store.user)
   const handleSignOut = ()=>{
     signOut(auth).then(() => {
@@ -41,6 +44,13 @@ function Header() {
     
   }
 
+const handleGPTSearchClick = ()=>{
+  dispatch(toggleGptSearchView())
+}
+
+const handleLangChange = (e)=>{
+  dispatch(changeLang(e.target.value))
+}
 
 
   return (
@@ -49,9 +59,19 @@ function Header() {
             <img className='w-[200px] p-2' src={LOGO_URL} alt="logo" />
         
             {user && <div className=" h-12 m-4 my-6 absolute flex right-1 z-20">
+
+              <select onChange={handleLangChange} className='mx-2 outline-none rounded-lg bg-gray-800
+              text-white'>
+                {SUPPORTED_LANG.map((lang)=>{
+                  return <option className='p-1' key={lang.identifier} value={lang.identifier}>
+                    {lang.name}
+                  </option>
+                })}
+              </select>
+         <button onClick={handleGPTSearchClick} className='bg-purple-600 text-white px-5 rounded-lg mr-2'>GPT Search</button>
          <div className='h-fit flex flex-col items-center'>
           <img
-            className="w-12 "
+            className="w-12 rounded-lg"
             src={user?.photoURL}
             alt="user photo"
           />

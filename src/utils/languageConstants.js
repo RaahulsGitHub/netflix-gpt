@@ -1,0 +1,16 @@
+const langConst = {
+    en: {
+        search: "Search",
+        gptSearch: "What would you like to watch today."
+    },
+    hindi: {
+        search: "खोजें",
+        gptSearch: "आज आप क्या देखना चाहेंगे?"
+    },
+    spanish: {
+        search: "Buscar",
+        gptSearch: "¿Qué te gustaría ver hoy?"
+    }
+}
+
+export default langConst
